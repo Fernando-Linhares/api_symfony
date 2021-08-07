@@ -12,24 +12,33 @@ use App\Entity\Product;
 class ProductsController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/", name="index", METHOD={"GET"})
      */
-    public function index(): Response
+    public function index()
     {
         $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
         return $this->json(['data' => $products]);
     }
 
+
     /**
-     * @Route("/update", name="update")
+     * @Route("/{id}", name="update", methods={"GET"})
      */
-    public function update()
+    public function show($id)
     {
 
     }
 
     /**
-     * @Route("/create", name="create")
+     * @Route("/{id}/update", name="update", methods={"PUT"})
+     */
+    public function update($id)
+    {
+
+    }
+
+    /**
+     * @Route("/create", name="create", methods={"POST"})
      */
     public function create()
     {
@@ -37,25 +46,17 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="delete")
+     * @Route("/{id}/delete", name="delete", methods={"DELETE"})
      */
-    public function delete()
+    public function delete($id)
     {
         
     }
 
     /**
-     * @Route("/patch", name="patch")
+     * @Route("/{id}/{col}/patch", name="patch", methods="{PATCH}")
      */
-    public function patch()
-    {
-        
-    }
-
-        /**
-     * @Route("/put", name="put")
-     */
-    public function put()
+    public function patch($id, $col)
     {
         
     }
