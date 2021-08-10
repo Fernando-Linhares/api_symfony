@@ -23,11 +23,6 @@ class Product
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $category;
-
-    /**
      * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
      */
     private $price;
@@ -42,6 +37,12 @@ class Product
      */
     private $updated_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="product", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $cat;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,18 +56,6 @@ class Product
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCategory(): ?int
-    {
-        return $this->category;
-    }
-
-    public function setCategory(int $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }
@@ -103,6 +92,18 @@ class Product
     public function setUpdatedAt(\DateTimeImmutable $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getCat(): ?Category
+    {
+        return $this->cat;
+    }
+
+    public function setCat(Category $cat): self
+    {
+        $this->cat = $cat;
 
         return $this;
     }

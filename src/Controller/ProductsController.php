@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Product;
-
+use App\Entity\Category;
 /**
 ** @Route("/products", name="products")
 **/
@@ -22,7 +22,7 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="update", methods={"GET"})
+     * @Route("/{id}", name="select", methods={"GET"})
      */
     public function show($id)
     {
@@ -36,11 +36,11 @@ class ProductsController extends AbstractController
     public function update($id, Request $request)
     {
         $data = $request->request->all();
-
+        $category = $this->getDoctrine()->getRepository(Category::class)->find($data['category']);
         $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
         $product->setName($data['name']);
         $product->setPrice($data['price']);
-        $product->setCategory($data['category']);
+        $product->setCat($category);
         $product->setCreatedAt(new \DateTimeImmutable('now', new \DateTimezone('America/Sao_Paulo')));
         $product->setUpdatedAt(new \DateTimeImmutable('now', new \DateTimezone('America/Sao_Paulo')));
 
@@ -57,10 +57,12 @@ class ProductsController extends AbstractController
     public function create(Request $request)
     {
         $data = $request->request->all();
+        $category = $this->getDoctrine()->getRepository(Category::class)->find($data['category']);
         $product = new Product;
         $product->setName($data['name']);
         $product->setPrice($data['price']);
-        $product->setCategory($data['category']);
+        $product->setCat($category);
+
         $product->setCreatedAt(new \DateTimeImmutable('now', new \DateTimezone('America/Sao_Paulo')));
         $product->setUpdatedAt(new \DateTimeImmutable('now', new \DateTimezone('America/Sao_Paulo')));
 
